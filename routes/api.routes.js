@@ -24,7 +24,6 @@ apiRoutes.post('/users/register', async (req, res) => {
 
 apiRoutes.post('/users/login', async (req, res) => {
     const credentials = req.body;
-    console.log(credentials)
 
     try {
         if(await userService.loginUser(credentials)) return res.redirect('/datos');
