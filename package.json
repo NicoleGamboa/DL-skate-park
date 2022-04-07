@@ -1,0 +1,22 @@
+{
+  "name": "dl-skate-park",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NicoleGamboa/DL-skate-park.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NicoleGamboa/DL-skate-park/issues"
+  },
+  "homepage": "https://github.com/NicoleGamboa/DL-skate-park#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
