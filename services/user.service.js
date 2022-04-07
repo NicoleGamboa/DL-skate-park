@@ -28,6 +28,18 @@ class UserService {
             throw 'Error al intentar insertar un nuevo usuario en la base de datos.';
         }
     }
+
+    loginUser = async (user) => {
+        const query = `SELECT * FROM skaters WHERE email = '${user.email}' AND password = '${user.password}'`;
+
+        const result = await client.query(query);
+
+        if (result.rowCount === 1) {
+            return true;
+        }
+
+        return false;
+    }
     
 }
 

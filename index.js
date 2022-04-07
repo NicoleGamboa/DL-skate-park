@@ -8,6 +8,8 @@ const port = 3000;
 
 // Configuración express
 app.use(fileUpload());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public')); //  define ruta para archivos estáticos
 
 // Configuración handlebars
