@@ -2,38 +2,61 @@
     <h2>Registro</h2>
     <hr class="w-50" />
 
-    <form>
+    <form id="register-form" action="/api/users/register" method="post" enctype="multipart/form-data">
         <div class="form-group row w-50 m-auto">
             <div class="form-group col-12 col-sm-6">
                 <label>Email</label>
-                <input class="form-control m-auto" />
+                <input type="email" class="form-control m-auto" name="email" required/>
             </div>
             <div class="form-group col-12 col-sm-6">
                 <label>Nombre</label>
-                <input class="form-control m-auto" />
+                <input class="form-control m-auto" name="name" />
             </div>
             <div class="form-group col-12 col-sm-6">
                 <label>Password</label>
-                <input class="form-control m-auto" />
+                <input type="password" class="form-control m-auto" name="password" required/>
             </div>
             <div class="form-group col-12 col-sm-6">
                 <label>Repita la password</label>
-                <input class="form-control m-auto" />
+                <input type="password" class="form-control m-auto" name="password_confirm" required/>
             </div>
             <div class="form-group col-12 col-sm-6">
                 <label>Años de experiencia</label>
-                <input class="form-control m-auto" />
+                <input class="form-control m-auto" name="years_experience" required/>
             </div>
             <div class="form-group col-12 col-sm-6">
                 <label>Especialidad</label>
-                <input class="form-control m-auto" />
+                <input class="form-control m-auto" name="specialty" required/>
             </div>
             <div class="form-group col-12 col-sm-12">
                 <label>Foto de perfil</label>
-                <input type="file" />
+                <input type="file" name="profile_photo"/>
             </div>
         </div>
-        <button class="btn btn-info mb-3">Registrarme</button>
+        <button type="submit" class="btn btn-info mb-3">Registrarme</button>
         <p><a href="login"> Iniciar sesión</a></p>
     </form>
 </div>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const form = document.querySelector('#register-form');
+
+        form.addEventListener('submit', event => {
+            
+            // comparar que las contraseñas sean iguales
+            if (event.target.password.value !== event.target.password_confirm.value) {
+                event.preventDefault();
+                return Swal.fire(
+                'Error',
+                'Las contraseñas no coinciden',
+                'error'
+                );
+            }
+        });
+
+    });
+</script>
