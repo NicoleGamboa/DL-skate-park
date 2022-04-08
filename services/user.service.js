@@ -43,13 +43,13 @@ class UserService {
     }
 
     loginUser = async (user) => {
-        const query = `SELECT * FROM skaters WHERE email = '${user.email}' AND password = '${user.password}'`;
-
+        const query = `SELECT password FROM skaters WHERE email = '${user.email}' LIMIT 1`;
         const result = await client.query(query);
+        const dbUserPassword = result.rows[0].password;
 
-        if (result.rowCount === 1) {
-            return true;
-        }
+        const match = await bcrypt.compare(user.password, dbUserPassword);
+
+        if(match) return true;
 
         return false;
     }
