@@ -1,5 +1,6 @@
 const express = require('express');
 const { engine } = require('express-handlebars');
+const cookieParser = require('cookie-parser');
 const publicRoutes = require('./routes/public.routes');
 const apiRoutes = require('./routes/api.routes');
 const fileUpload = require('express-fileupload');
@@ -9,6 +10,7 @@ const port = 3000;
 // Configuración express
 app.use(fileUpload());
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public')); //  define ruta para archivos estáticos
 

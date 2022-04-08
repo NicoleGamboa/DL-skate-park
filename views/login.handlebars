@@ -2,7 +2,7 @@
     <h2>Iniciar Sesión</h2>
     <hr class="w-50" />
 
-    <form id="login-form" method="" action="">
+    <form id="login-form">
         <div class="form-group">
             <div class="form-group">
                 <label>Email</label>
@@ -36,9 +36,20 @@
                 method: 'POST',
                 body: JSON.stringify(data)
             })
-            .then(response => response.json())
-            .then(data => localStorage.setItem('token', data.token))
-            .catch(error => console.log(error));
+            .then(response => {
+                if(response.status !== 200) throw new Error(response.status);
+                return response.json();
+            })
+            .then(data => {
+                // guardar token en local storage
+                document.cookie = `Authorization=Bearer ${data.token}`;
+
+                // redireccionar a login
+                window.location.replace('/datos');
+            })
+            .catch(() => {
+                Swal.fire('Error', 'Credenciales no validas', 'error');
+            });
         });
     });
 </script>

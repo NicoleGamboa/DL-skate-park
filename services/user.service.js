@@ -56,11 +56,22 @@ class UserService {
         if(match) {
             const query = `SELECT * FROM skaters WHERE email = '${user.email}' LIMIT 1`;
             const result = await client.query(query);
-            const userLoggedIn = result.rows[0].password;
+            const userLoggedIn = result.rows[0];
             return userLoggedIn;
         };
 
         return false;
+    }
+
+    getCurrentUser = async (token) => {
+
+        const userPayload = tokenService.getTokenPayload(token);
+
+        const query = `SELECT email, nombre, anos_experiencia, especialidad, estado FROM skaters WHERE id = '${userPayload.id}' LIMIT 1`;
+        const result = await client.query(query);
+        const user = result.rows[0];
+
+        return user;
     }
     
 }
