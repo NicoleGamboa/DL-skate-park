@@ -1,4 +1,5 @@
 const client = require('../database');
+const bcrypt = require('bcrypt');
 const fileService = require('../services/file.service');
 
 class UserService {
@@ -12,17 +13,29 @@ class UserService {
 
         // subir foto a public/images/
         const filePath = fileService.uploadFile(file);
-
-        const query = `
-            INSERT INTO skaters 
-                (email, nombre, password, anos_experiencia, especialidad, foto, estado)
-            VALUES 
-                ('${user.email}', '${user.name}', '${user.password}', '${user.years_experience}', '${user.specialty}', '${filePath}', '0')
-        `;
         
+        // crear usuario
         try {
-            // Ejecutar query
-            await client.query(query);
+
+            // aplicar hash a contraseña
+            bcrypt.hash(user.password, 1, async (error, hash) => {
+
+                if(error) {
+                    throw 'Error al intentar guardar la contraseña de manera segura.'
+                } else {
+                    const query = `
+                        INSERT INTO skaters 
+                            (email, nombre, password, anos_experiencia, especialidad, foto, estado)
+                        VALUES 
+                            ('${user.email}', '${user.name}', '${hash}', '${user.years_experience}', '${user.specialty}', '${filePath}', '0')
+                    `;
+    
+                    // Ejecutar query
+                    await client.query(query);
+                };
+
+            });
+    
         } catch {
             // Si hay un error, devuelve el siguiente mensaje
             throw 'Error al intentar insertar un nuevo usuario en la base de datos.';
