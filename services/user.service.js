@@ -1,6 +1,7 @@
 const client = require('../database');
 const bcrypt = require('bcrypt');
 const fileService = require('../services/file.service');
+const tokenService = require('./token.service');
 
 class UserService {
 
@@ -45,11 +46,19 @@ class UserService {
     loginUser = async (user) => {
         const query = `SELECT password FROM skaters WHERE email = '${user.email}' LIMIT 1`;
         const result = await client.query(query);
+        
+        if(result.rowCount === 0) return false;
+
         const dbUserPassword = result.rows[0].password;
 
         const match = await bcrypt.compare(user.password, dbUserPassword);
 
-        if(match) return true;
+        if(match) {
+            const query = `SELECT * FROM skaters WHERE email = '${user.email}' LIMIT 1`;
+            const result = await client.query(query);
+            const userLoggedIn = result.rows[0].password;
+            return userLoggedIn;
+        };
 
         return false;
     }

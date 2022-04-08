@@ -1,6 +1,7 @@
 const express = require("express");
 const apiRoutes = express.Router();
 const userService = require('../services/user.service');
+const tokenService = require('../services/token.service');
 
 apiRoutes.post('/users/register', async (req, res) => {
 
@@ -17,7 +18,11 @@ apiRoutes.post('/users/register', async (req, res) => {
         return res.redirect('/login');
     } catch (error) {
         console.log(error);
-        return res.send('Se produjo un error al intentar crear el usuario');
+    
+        return res.status(500).json({
+            error: 'User create',
+            message: 'Se produjo un error al intentar crear un usuario'
+        });
     }
 
 });
@@ -26,12 +31,21 @@ apiRoutes.post('/users/login', async (req, res) => {
     const credentials = req.body;
 
     try {
-        if(await userService.loginUser(credentials)) return res.redirect('/datos');
+        const user = await userService.loginUser(credentials);
+
+        if(user) {
+            const token = tokenService.createToken(user);
+            return res.json({ token });
+        };
+
     } catch (error) {
         console.log(error);
     }
     
-    return res.redirect('/login?error=true');
+    return res.status(401).json({
+        error: 'Login error',
+        message: 'Credenciales no válidas para autorizar al usuario'
+    });
 });
 
 apiRoutes.put('/users/update/:user_id', (req, res) => {
