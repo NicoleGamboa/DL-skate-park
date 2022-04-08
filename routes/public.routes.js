@@ -2,23 +2,43 @@ const express = require("express");
 const publicRoutes = express.Router();
 
 publicRoutes.get('/', (req, res) => {
-    res.render('index');
+    const page = {
+        title: 'Home'
+    };
+
+    res.render('index', { page });
 });
 
 publicRoutes.get('/registro', (req, res) => {
-    res.render('registro');
+    const page = {
+        title: 'Registrar usuario'
+    };
+
+    res.render('registro', { page });
 });
 
 publicRoutes.get('/login', (req, res) => {
-    res.render('login');
+    const page = {
+        title: 'Iniciar sesión'
+    }
+
+    res.render('login', { page });
 });
 
 publicRoutes.get('/datos', (req, res) => {
-    res.render('datos');
+    const page = {
+        title: 'Mi perfil'
+    }
+
+    res.render('datos', { page });
 });
 
 publicRoutes.get('/admin', (req, res) => {
-    res.render('admin');
+    const page = {
+        title: 'Administración'
+    }
+
+    res.render('admin', { page });
 });
 
 module.exports = publicRoutes;
