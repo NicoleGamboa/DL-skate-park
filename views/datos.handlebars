@@ -6,36 +6,36 @@
         <div class="form-group row w-50 m-auto">
             <div class="form-group col-12 col-sm-6">
                 <label>Email</label>
-                <input class="form-control m-auto" disabled value="{{{ user.email }}}" name="email"/>
+                <input class="form-control m-auto" disabled value="{{{ user.email }}}" name="email" />
             </div>
             <div class="form-group col-12 col-sm-6">
                 <label>Nombre</label>
-                <input class="form-control m-auto" value="{{ user.nombre }}" name="name"/>
+                <input class="form-control m-auto" value="{{ user.nombre }}" name="name" />
             </div>
             <div class="form-group col-12 col-sm-6">
                 <label>Password</label>
-                <input type="password" class="form-control m-auto" value="" name="password"/>
+                <input type="password" class="form-control m-auto" value="" name="password" />
             </div>
             <div class="form-group col-12 col-sm-6">
                 <label>Repita la password</label>
-                <input type="password" class="form-control m-auto" value="" name="password_confirm"/>
+                <input type="password" class="form-control m-auto" value="" name="password_confirm" />
             </div>
             <div class="form-group col-12 col-sm-6">
                 <label>Años de experiencia</label>
-                <input class="form-control m-auto" value="{{ user.anos_experiencia }}" name="years_experience"/>
+                <input class="form-control m-auto" value="{{ user.anos_experiencia }}" name="years_experience" />
             </div>
             <div class="form-group col-12 col-sm-6">
                 <label>Especialidad</label>
-                <input class="form-control m-auto" value="{{ user.especialidad }}" name="specialty"/>
+                <input class="form-control m-auto" value="{{ user.especialidad }}" name="specialty" />
             </div>
         </div>
         <div class="mb-1">
             <button type="submit" class="btn btn-primary">Actualizar</button>
         </div>
-        <div>
-            <button class="btn btn-danger">Eliminar cuenta</button>
-        </div>
     </form>
+    <div>
+        <button role="button" id="delete-account" class="btn btn-danger">Eliminar cuenta</button>
+    </div>
 </div>
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -43,14 +43,16 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const form = document.querySelector('#update-form');
-        form.addEventListener('submit', (event) => {
+        const deleteAccountBtn = document.querySelector('#delete-account');
+
+        form.addEventListener('submit', event => {
             event.preventDefault();
 
             const formData = new FormData(form);
             const data = Object.fromEntries(formData);
 
             // comparar que las contraseñas sean iguales
-            if (data.password || data.confirm_password){
+            if (data.password || data.confirm_password) {
                 if (event.target.password.value !== event.target.password_confirm.value) {
                     event.preventDefault();
                     return Swal.fire(
@@ -77,6 +79,50 @@
             }).catch(error => {
                 console.log(error);
                 Swal.fire('¡Error!', 'Se produjo un error al intentar actualizar tus datos', 'error');
+            });
+        });
+
+        deleteAccountBtn.addEventListener('click', event => {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Esta acción no se puede deshacer.',
+                icon: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar'
+            }).then(result => {
+                if (result.value) {
+                    fetch('/api/users/profile', {
+                        method: 'DELETE',
+                    }).then((result) => {
+                                                if (result) {
+                            let timerInterval;
+                            Swal.fire({
+                                title: 'Eliminando',
+                                html: 'Tu sesión se cerrará en segundos...',
+                                timer: 3500,
+                                timerProgressBar: true,
+                                didOpen: () => {
+                                    Swal.showLoading()
+                                },
+                                willClose: () => {
+                                    clearInterval(timerInterval)
+                                }
+                            }).then((result) => {
+                                /* Read more about handling dismissals below */
+                                if (result.dismiss === Swal.DismissReason.timer) {
+                                    return window.location.reload();
+                                }
+                            })
+                        }
+                    }).catch(error => {
+                        console.log(error);
+                        Swal.fire(
+                            'Error',
+                            'No se pudo eliminar tu cuenta',
+                            'error'
+                        );
+                    })
+                }
             });
         });
     });

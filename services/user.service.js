@@ -96,6 +96,11 @@ class UserService {
 
         return user;
     }
+
+    deleteUser = async (userId) => {
+        const query = `DELETE FROM skaters WHERE id = ${userId}`;
+        await client.query(query);
+    }
     
 }
 

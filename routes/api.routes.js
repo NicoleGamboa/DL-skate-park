@@ -72,7 +72,20 @@ apiRoutes.put('/users/profile', async (req, res) => {
 });
 
 apiRoutes.delete('/users/profile', async (req, res) => {
+    
+    try {
+        const token = tokenService.getToken(req.cookies.Authorization);
+        const currentUser = await tokenService.getTokenPayload(token);
+        userService.deleteUser(currentUser.id);
+        return res.clearCookie('Authorization').send('Usuado eliminado correctamente.');
+    } catch (error) {
+        console.log(error);
+    }
 
+    return res.status(500).json({
+        error: 'User delete',
+        message: 'Se produjo un error al intentar eliminar el usuario'
+    });
 });
 
 module.exports = apiRoutes;
