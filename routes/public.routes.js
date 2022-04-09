@@ -13,7 +13,7 @@ const apiBase = config.app.api;
 publicRoutes.get('/', async (req, res) => {
 
     const response = await axios.get(`${apiBase}/skaters`);
-    const skaters = response.data;
+    const skaters = response.data || [];
 
     const page = {
         title: 'Home'

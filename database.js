@@ -1,16 +1,8 @@
 const { Client } = require('pg');
 const config = require('./config');
 
-// const connectionData = {
-//     user: config.database.user,
-//     host: config.database.host,
-//     database: config.database.name,
-//     password: config.database.password,
-//     port: config.database.port || 5432,
-// }
-
 const client = new Client({
-    connectionString: config.database.url,
+    connectionString: `postgres://${config.database.user}:${config.database.password}@${config.database.host}:${config.database.port}/${config.database.name}`,
     ssl: {
         rejectUnauthorized: false
     }
