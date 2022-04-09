@@ -43,6 +43,29 @@ class UserService {
         }
     }
 
+    updateUser = async (user, data) => {
+        const dataStoredQuery = `SELECT * FROM skaters WHERE id = '${user.id}'`;
+        const dataStoredResult = await client.query(dataStoredQuery);
+        const dataStored = dataStoredResult.rows[0];
+
+        if(data.password) {
+            data.password = await bcrypt.hash(data.password, 1);
+        }
+
+        const dataToUpdate = {
+            name: data.name || dataStored.nombre,
+            password: data.password || dataStored.password,
+            years_experience: data.years_experience || dataStored.anos_experiencia,
+            specialty: data.specialty || dataStored.expecialidad,
+        }
+
+        const updateQuery = `UPDATE skaters SET nombre = '${dataToUpdate.name}', password = '${dataToUpdate.password}', anos_experiencia = '${dataToUpdate.years_experience}', especialidad = '${dataToUpdate.specialty}' WHERE id = '${user.id}' RETURNING *`;
+        const updateResult = await client.query(updateQuery);
+        const userUpdated = updateResult.rows[0];
+
+        return userUpdated;
+    }
+
     loginUser = async (user) => {
         const query = `SELECT password FROM skaters WHERE email = '${user.email}' LIMIT 1`;
         const result = await client.query(query);

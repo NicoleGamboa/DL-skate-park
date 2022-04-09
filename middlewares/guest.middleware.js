@@ -1,13 +1,13 @@
 const tokenService = require("../services/token.service")
 
 const guestMiddleware = (req, res, next) => {
-    const authCoockie = req.cookies.Authorization;
+    const authCookie = req.cookies.Authorization;
 
     try {
-        if(!authCoockie) { // ir a la página de invitado
+        if(!authCookie) { // ir a la página de invitado
             return next();
         } else {
-            const token = tokenService.getToken(authCoockie);
+            const token = tokenService.getToken(authCookie);
             const isValidToken = tokenService.validateToken(token);
     
             if(isValidToken) {
