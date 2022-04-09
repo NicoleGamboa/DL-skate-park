@@ -2,6 +2,7 @@ const express = require("express");
 const apiRoutes = express.Router();
 const userService = require('../services/user.service');
 const tokenService = require('../services/token.service');
+const skaterService = require("../services/skater.service");
 
 apiRoutes.post('/users/register', async (req, res) => {
 
@@ -85,6 +86,36 @@ apiRoutes.delete('/users/profile', async (req, res) => {
     return res.status(500).json({
         error: 'User delete',
         message: 'Se produjo un error al intentar eliminar el usuario'
+    });
+});
+
+apiRoutes.get('/skaters', async (req, res) => {
+    try {
+        const skaters = await skaterService.getAll();
+        return res.json(skaters);
+    } catch (error) {
+        console.log(error);
+    }
+
+    return res.status(500).json({
+        error: 'Skaters',
+        message: 'Se produjo un error al intentar obtener el listado de skaters.'
+    });
+});
+
+apiRoutes.post('/skaters/update', async (req, res) => {
+    try {
+        const skaterId = req.body.skaterId;
+        console.log('HEREEE', skaterId);
+        skaterService.updateStatus(skaterId);
+        return res.send('Estado actualizado correctamente');
+    } catch (error) {
+        console.log(error);
+    }
+
+    return res.status(500).json({
+        error: 'Skaters update',
+        message: 'Se produjo un error al intentar actualizar el estado del skater.'
     });
 });
 

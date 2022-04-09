@@ -3,7 +3,11 @@ const guestMiddleware = require("../middlewares/guest.middleware");
 const authMiddleware = require("../middlewares/auth.middleware");
 const tokenService = require("../services/token.service");
 const userService = require("../services/user.service");
+const { default: axios } = require("axios");
 const publicRoutes = express.Router();
+const apiBase = 'http://localhost:3000/api';
+
+// TODO: HACER NUEVAMENTE LAS REQUEST AL API NO AL SERVICIO
 
 publicRoutes.get('/', (req, res) => {
     const page = {
@@ -42,12 +46,15 @@ publicRoutes.get('/datos', authMiddleware, async (req, res) => {
 
 });
 
-publicRoutes.get('/admin', authMiddleware, (req, res) => {
+publicRoutes.get('/admin', authMiddleware, async (req, res) => {
     const page = {
         title: 'Administración'
     }
 
-    res.render('admin', { page });
+    const response = await axios.get(`${apiBase}/skaters`);
+    const skaters = response.data;
+
+    res.render('admin', { page, skaters });
 });
 
 module.exports = publicRoutes;
