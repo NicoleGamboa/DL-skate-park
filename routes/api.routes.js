@@ -106,7 +106,6 @@ apiRoutes.get('/skaters', async (req, res) => {
 apiRoutes.post('/skaters/update', async (req, res) => {
     try {
         const skaterId = req.body.skaterId;
-        console.log('HEREEE', skaterId);
         skaterService.updateStatus(skaterId);
         return res.send('Estado actualizado correctamente');
     } catch (error) {
