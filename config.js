@@ -1,9 +1,9 @@
 const config = {
     database: {
-        user: process.env.DATABASE_USER || 'postgres',
-        host: process.env.DATABASE_HOST || 'localhost',
-        name: process.env.DATABASE || 'skatepark',
-        password: process.env.DATABASE_PASSWORD || 'carvajal0995',
+        user: process.env.DATABASE_USER || 'postgres', // postgres => usuario
+        host: process.env.DATABASE_HOST || 'localhost', // postgres => host
+        name: process.env.DATABASE || 'skatepark', // postgres => base de datos
+        password: process.env.DATABASE_PASSWORD || 'carvajal0995', // postgres => contraseña
         port: process.env.DATABASE_PORT || 5432
     },
     app: {
