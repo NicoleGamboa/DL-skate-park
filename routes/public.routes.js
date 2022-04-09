@@ -5,7 +5,8 @@ const tokenService = require("../services/token.service");
 const userService = require("../services/user.service");
 const { default: axios } = require("axios");
 const publicRoutes = express.Router();
-const apiBase = 'http://localhost:3000/api';
+const config = require('../config');
+const apiBase = config.app.api;
 
 // TODO: HACER NUEVAMENTE LAS REQUEST AL API NO AL SERVICIO
 

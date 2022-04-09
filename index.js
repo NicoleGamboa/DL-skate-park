@@ -5,7 +5,7 @@ const publicRoutes = require('./routes/public.routes');
 const apiRoutes = require('./routes/api.routes');
 const fileUpload = require('express-fileupload');
 const app = express();
-const port = process.env.PORT || 3000;
+const config = require('./config');
 
 // Configuración express
 app.use(fileUpload());
@@ -23,6 +23,6 @@ app.set('views', './views');
 app.use('/', publicRoutes); // rutas públicas (para el html)
 app.use('/api', apiRoutes); // rutas api
 
-app.listen(port, () => {
-    console.log(`App levantada en el puerto ${port}`);
+app.listen(config.app.port, () => {
+    console.log(`App levantada en el puerto ${config.app.port}`);
 });
