@@ -5,6 +5,7 @@ const config = {
         name: process.env.DATABASE || 'skatepark',
         password: process.env.DATABASE_PASSWORD || 'carvajal0995',
         port: process.env.DATABASE_PORT || 5432,
+        url: process.env.DATABASE_URL || ''
     },
     app: {
         port: process.env.PORT || 3000,
