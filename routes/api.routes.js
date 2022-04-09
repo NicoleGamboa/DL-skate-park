@@ -16,7 +16,7 @@ apiRoutes.post('/users/register', async (req, res) => {
         await userService.createUser(data);
 
         // si sale todo bien, redirige a la vista de login
-        return res.redirect('/login');
+        return res.redirect('/login?account=true');
     } catch (error) {
         console.log(error);
     

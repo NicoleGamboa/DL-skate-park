@@ -23,6 +23,17 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        
+        if(urlParams.get('account')) {
+            Swal.fire({
+                title: '¡Cuenta creada!',
+                text: 'Ya puedes iniciar sesión.',
+                icon: 'success'
+            }).then(result => window.location.replace('/login'));
+        }
+
         const form = document.querySelector('#login-form');
         form.addEventListener('submit', (event) => {
             event.preventDefault();
