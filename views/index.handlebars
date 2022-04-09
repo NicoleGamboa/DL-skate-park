@@ -15,36 +15,22 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>
-                    <div></div>
-                </td>
-                <td>Tony Hawk</td>
-                <td>12</td>
-                <td>Kickflip</td>
-                <td class="text-success font-weight-bold">Aprobado</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>
-                    <div></div>
-                </td>
-                <td>Evelien Bouilliart</td>
-                <td>10</td>
-                <td>Heelflip</td>
-                <td class="text-success font-weight-bold">Aprobado</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>
-                    <div></div>
-                </td>
-                <td>Danny Way</td>
-                <td>8</td>
-                <td>Ollie</td>
-                <td class="text-warning font-weight-bold">En revisión</td>
-            </tr>
+            {{#each skaters as |skater|}}
+                <tr>
+                    <th scope="row">{{ @index }}</th>
+                    <td>
+                        <img class="admin-photo" src="images/{{ skater.foto }}" alt="{{ skater.nombre }}">
+                    </td>
+                    <td>{{ skater.nombre }}</td>
+                    <td>{{ skater.anos_experiencia}}</td>
+                    <td>{{ skater.especialidad }}</td>
+                    {{#if skater.estado }} 
+                        <td class="text-success font-weight-bold">Aprobado</td>
+                    {{else}}
+                        <td class="text-warning font-weight-bold">En revisión</td> 
+                    {{/if}}
+                </tr>              
+            {{/each}}
         </tbody>
     </table>
     <a href="login">Iniciar Sesión</a> |

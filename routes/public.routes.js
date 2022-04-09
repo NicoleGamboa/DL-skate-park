@@ -9,12 +9,16 @@ const apiBase = 'http://localhost:3000/api';
 
 // TODO: HACER NUEVAMENTE LAS REQUEST AL API NO AL SERVICIO
 
-publicRoutes.get('/', (req, res) => {
+publicRoutes.get('/', async (req, res) => {
+
+    const response = await axios.get(`${apiBase}/skaters`);
+    const skaters = response.data;
+
     const page = {
         title: 'Home'
     };
 
-    res.render('index', { page });
+    res.render('index', { page, skaters });
 });
 
 publicRoutes.get('/registro', guestMiddleware, (req, res) => {
