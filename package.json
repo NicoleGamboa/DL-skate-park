@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cypress open ENV=local"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,7 @@
     "pg": "^8.7.3"
   },
   "devDependencies": {
+    "cypress": "^9.5.3",
     "nodemon": "^2.0.15"
   }
 }
