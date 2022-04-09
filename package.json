@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "start:dev": "nodemon index.js",
-    "test": "cypress open ENV=local"
+    "test": "cypress open"
   },
   "repository": {
     "type": "git",
