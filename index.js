@@ -12,7 +12,7 @@ app.use(fileUpload());
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
-// app.use(express.static('./public')); //  define ruta para archivos estáticos
+app.use(express.static('./public')); //  define ruta para archivos estáticos
 
 // Configuración handlebars
 app.engine('handlebars', engine());
