@@ -3,7 +3,7 @@ class FileService {
 
     uploadFile = (file) => {
         const fileName = `${Date.now()}-${file.name}`;
-        const filePath = `./public/images/${fileName}`;
+        const filePath = `/public/images/${fileName}`;
         file.mv(filePath);
         
         return fileName;
